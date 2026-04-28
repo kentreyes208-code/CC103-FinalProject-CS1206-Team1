@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 
+
 struct Patient {
     std::string name;
     int severity; // 1 = mild, 5 = critical
