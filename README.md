@@ -432,7 +432,7 @@ This system uses **BOTH approaches** — each in the context where it fits best:
 
 - **Iterative:** `enqueue()` uses a while loop to find the correct insertion position in the linked list
 - **Recursive:** `displayRecursive()` uses recursion to traverse and print the entire linked list
-- 
+  
 ····························································································································································································································································································································
 
 ### ╰► Detailed Comparison Table
