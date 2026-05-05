@@ -41,11 +41,9 @@ This system addresses these issues by implementing a structured, multi-level que
 
 | Feature | Description |
 |---|---|
-| 🗂️ **Multi-Level Queue Management** | Separate Standard and Emergency queues for organized patient handling |
 | 📝 **Recent Activity Log** | Stack-based log with timestamps and notes for accountability |
 | 🚨 **Triage-Based Categorization** | Severity levels (1–5) assigned to each incoming patient |
 | 🔄 **Real-Time Queue Processing** | Iterative loops keep the interface responsive at all times |
-| 👥 **Dual User Role Support** | Separate access for front-desk administrators and triage nurses |
 
 ---
 
