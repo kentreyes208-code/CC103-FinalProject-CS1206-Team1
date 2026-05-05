@@ -23,10 +23,10 @@
 #include <stdexcept>
 using namespace std;
 
-// ── Constructor ───
+// ── Constructor ─────────────────────────────────────────────
 PriorityQueue::PriorityQueue() : head(nullptr), count(0) {}
 
-// ── Destructor ──
+// ── Destructor ──────────────────────────────────────────────
 PriorityQueue::~PriorityQueue() {
     // Walk the list and free every node to avoid memory leaks
     Node* current = head;
@@ -71,7 +71,7 @@ void PriorityQueue::enqueue(const Patient& patient) {
     ++count;
 }
 
-// ── dequeue ───
+// ── dequeue ─────────────────────────────────────────────────
 //  Removes and returns the patient at the front (highest priority).
 //  Throws std::underflow_error if the queue is empty.
 Patient PriorityQueue::dequeue() {
@@ -109,16 +109,48 @@ int PriorityQueue::size() const {
     return count;
 }
 
+//  displayRecursive (helper) 
+//  Recursively walks the linked list and prints each patient row.
+//  Base case  : current == nullptr  - list is exhausted, stop.
+//  Rec. case  : print this node, then call self on current-next.
+//  NOTE: severityLabel is redeclared here so the helper is
+//  self-contained.
+static void displayRecursive(Node* current, int pos) {
+    if (current == nullptr) return;                      // BASE CASE
+
+    auto severityLabel = [](int s) -> string {
+        switch (s) {
+            case 1:  return "CRITICAL ";
+            case 2:  return "SERIOUS  ";
+            case 3:  return "MODERATE ";
+            case 4:  return "MINOR    ";
+            case 5:  return "ROUTINE  ";
+            default: return "UNKNOWN  ";
+        }
+    };
+
+    const Patient& p = current->data;
+    cout << "  " << left
+              << setw(5)  << pos
+              << setw(6)  << p.id
+              << setw(22) << p.name
+              << setw(20) << p.ailment
+              << setw(10) << severityLabel(p.severity)
+              << "\n";
+
+    displayRecursive(current->next, pos + 1);            // RECURSIVE CASE
+}
+
 // display 
 //  Prints the entire waitlist, in priority order, to stdout.
 void PriorityQueue::display() const {
     if (isEmpty()) {
-        std::cout << "  [Emergency queue is empty]\n";
+        cout << "  [Emergency queue is empty]\n";
         return;
     }
 
     // Helper lambda — maps severity 1-5 to a readable label
-    auto severityLabel = [](int s) -> std::string {
+    auto severityLabel = [](int s) -> string {
         switch (s) {
             case 1:  return "CRITICAL ";
             case 2:  return "SERIOUS  ";
@@ -131,8 +163,8 @@ void PriorityQueue::display() const {
 
     // Table header
     cout << "\n";
-    cout << "  " << std::string(63, '-') << "\n";
-    cout << "  " << std::left
+    cout << "  " << string(63, '-') << "\n";
+    cout << "  " << left
               << setw(5)  << "Pos"
               << setw(6)  << "ID"
               << setw(22) << "Name"
@@ -141,20 +173,9 @@ void PriorityQueue::display() const {
               << "\n";
     cout << "  " << string(63, '-') << "\n";
 
-    // Rows
-    Node* current = head;
-    int   pos     = 1;
-    while (current != nullptr) {
-        const Patient& p = current->data;
-        cout << "  " << std::left
-                  << setw(5)  << pos
-                  << setw(6)  << p.id
-                  << setw(22) << p.name
-                  << setw(20) << p.ailment
-                  << setw(10) << severityLabel(p.severity)
-                  << "\n";
-        current = current->next;
-        ++pos;
-    }
+    // Rows — recursive traversal replaces the original while loop
+    displayRecursive(head, 1);
+
     cout << "  " << string(63, '-') << "\n";
-}
+}    
+
