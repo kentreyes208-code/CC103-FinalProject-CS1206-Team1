@@ -53,6 +53,7 @@ This project implements a **multi-level queuing system** that:
 
 ## ◢ Data Structures Used
 
+
 ### ╰► Stack (LIFO)
 
 **What it is:**
@@ -61,7 +62,6 @@ A Last-In, First-Out (LIFO) data structure implemented using `std::vector`.
 **Why it was used:**
 To maintain a **recent activity log**, allowing quick access to the most recently registered patients for auditing and review.
 
- ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° °
 
 ### ╰► FIFO Queue
 
@@ -71,7 +71,6 @@ A First-In, First-Out (FIFO) data structure implemented using `std::deque`.
 **Why it was used:**
 To ensure **fair processing of non-critical patients**, maintaining the order in which they arrived.
 
- ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° °
 
 ### ╰► Priority Queue (Linked List Implementation)
 
@@ -81,7 +80,7 @@ A custom-built singly linked list that maintains sorted order based on patient s
 **Why it was used:**
 To ensure that **patients with higher urgency (lower severity number)** are always treated first, regardless of arrival time.
 
-════════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════════════════════════
 
 ### ◢ Severity Classification
 
@@ -93,7 +92,7 @@ To ensure that **patients with higher urgency (lower severity number)** are alwa
 | 4        | Minor       | FIFO Queue     |
 | 5        | Routine     | FIFO Queue     |
 
-════════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════════════════════════
 
 ## ◢ Algorithm or Step-by-step logic
 
