@@ -5,7 +5,6 @@
 
 //  PriorityQueue.h
 //  Declares a singly-linked-list based priority queue.
-//
 //  Priority rule (REVISED):
 //    Patients with LOWER severity numbers are positioned
 //    closer to the front (head) of the list, so severity 1
