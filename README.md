@@ -237,15 +237,14 @@ The system uses recursion to display the contents of the Priority Queue. The fun
 
 ## ◢ Acknowledgement
 
-**Ms. Fatima Marie Agdon**
+╰► **Ms. Fatima Marie Agdon**
 Professor, CC 103 — Data Structures and Algorithms
 > **We sincerely thank our professor for her guidance, support, and encouragement throughout the development of this project.**
-····························································································································································································································································································································
-**College of Informatics and Computing Sciences (CICS)**
-> **For providing the academic environment and resources necessary for this project.**
-····························································································································································································································································································································
+
+╰► **College of Informatics and Computing Sciences (CICS)**
 **Batangas State University — Alangilan Campus**
 *"The National Engineering University"*
+> **For providing the academic environment and resources necessary for this project.**
 
 ══════════════════════════════════════════════════════════════════════════════════════════
 
