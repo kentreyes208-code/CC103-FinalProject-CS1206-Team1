@@ -2,6 +2,7 @@
 #define PATIENT_H
 
 #include <string>
+using namespace std;
 // =====================
 //  Patient.h
 //  Defines the core data structure representing a single
@@ -24,8 +25,8 @@
 
 struct Patient {
     int         id;         // Unique auto-incremented patient ID
-    std::string name;       // Full name of the patient
-    std::string ailment;    // Reported ailment / chief complaint
+    string name;       // Full name of the patient
+    string ailment;    // Reported ailment / chief complaint
     int         severity;   // Priority level: 1 (Critical) … 5 (Routine)
 
     // Default constructor
@@ -34,7 +35,7 @@ struct Patient {
 
     // Parameterised constructor
     Patient(int id, const std::string& name,
-            const std::string& ailment, int severity)
+            const string& ailment, int severity)
         : id(id), name(name), ailment(ailment), severity(severity) {}
 };
 
