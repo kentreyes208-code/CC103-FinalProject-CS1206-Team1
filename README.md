@@ -1,31 +1,33 @@
 # [Documentation Website of Hospital Triage and Patient Management (Read Here)](https://readme-team1-d4u5.vercel.app/)
 
-## *MARKDOWN ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎VERSION* 𓂃˖ ࣪⊹
-# 🏥 Hospital Triage & Patient Management System
+-ˏˋ⋆ ᴡ ᴇ ʟ ᴄ ᴏ ᴍ ᴇ ⋆ˊˎ-
 
----
+## 「 MARKDOWN VERSION 」
+# Hospital Triage & Patient Management System
 
-## 📑 Table of Contents
+════════════════════════════════════════════════════════════════════════
 
-* [📌 Project Title](#-project-title)
-* [📖 Problem Description](#-problem-description--what-problem-are-you-solving)
-* [🧱 Data Structures Used](#-data-structures-used--what-it-is-why-you-used-it)
-* [⚙️ Algorithm Explanation](#️-algorithm-explanation--step-by-step-logic)
-* [🔄 Iterative vs Recursive Comparison](#-iterative-vs-recursive-comparison--which-is-faster-which-is-easier)
-* [🧠 Design Decisions](#-design-decisions--choices-and-trade-offs)
-* [👥 Team Members](#-team-members)
-* [🙏 Acknowledgement](#-acknowledgement)
-* [🔗 Full Interactive Version](#-full-interactive-version)
+## Table of Contents
 
----
+* [╰► Project Title](#-project-title)
+* [╰► Problem Description](#-problem-description--what-problem-are-you-solving)
+* [╰► Data Structures Used](#-data-structures-used--what-it-is-why-you-used-it)
+* [╰► Algorithm Explanation](#️-algorithm-explanation--step-by-step-logic)
+* [╰► Iterative vs Recursive Comparison](#-iterative-vs-recursive-comparison--which-is-faster-which-is-easier)
+* [╰► Design Decisions](#-design-decisions--choices-and-trade-offs)
+* [╰► Team Members](#-team-members)
+* [╰► Acknowledgement](#-acknowledgement)
+* [╰► Full Interactive Version](#-full-interactive-version)
 
-## 📌 Project Title
+════════════════════════════════════════════════════════════════════════
+
+## ╰► Project Title
 
 **Hospital Triage & Patient Management System**
 
----
+════════════════════════════════════════════════════════════════════════
 
-## 📖 Problem Description — What problem are you solving?
+## ╰► Problem Description — What problem are you solving?
 
 Many hospital patient management systems face challenges in efficiently handling patient flow, particularly when dealing with both emergency and non-emergency cases.
 
@@ -38,7 +40,9 @@ Common issues include:
 
 Without a structured system, critical patients may experience delays, and hospital staff may struggle to maintain accountability and workflow clarity.
 
-### ✅ Proposed Solution
+════════════════════════════════════════════════════════════════════════
+
+### ╰► Proposed Solution
 
 This project implements a **multi-level queuing system** that:
 
@@ -47,11 +51,11 @@ This project implements a **multi-level queuing system** that:
 * Tracks all recent activities using a **Stack**
 * Uses **recursion** for structured data traversal
 
----
+════════════════════════════════════════════════════════════════════════
 
-## 🧱 Data Structures Used — What it is, Why you used it
+## ╰► Data Structures Used — What it is, Why you used it
 
-### 🧱 Stack (LIFO)
+### Stack (LIFO)
 
 **What it is:**
 A Last-In, First-Out (LIFO) data structure implemented using `std::vector`.
