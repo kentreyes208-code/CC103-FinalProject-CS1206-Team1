@@ -104,7 +104,6 @@ To ensure that **patients with higher urgency (lower severity number)** are alwa
 **Explanation:**
 When a patient arrives, the system collects essential information such as their name, medical concern, and severity level. A unique identifier is automatically generated to ensure that each patient can be tracked individually. This step establishes the foundation for all subsequent operations in the system.
 
- ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° °
 
 ### ╰► Step 2: Stack Logging
 
@@ -114,7 +113,6 @@ When a patient arrives, the system collects essential information such as their 
 **Explanation:**
 Immediately after registration, the patient is stored in a stack. Since a stack follows the Last-In, First-Out principle, the most recently registered patient is always on top. This allows hospital staff to quickly review or undo recent entries, making it useful for auditing and tracking recent activity.
 
- ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° °
 
 ### ╰► Step 3: Severity-Based Routing
 
@@ -128,7 +126,6 @@ else
 **Explanation:**
 The system evaluates the severity level of the patient to determine where they should be placed. Patients with severity levels 1 or 2 are considered urgent and are routed to the Priority Queue. Patients with severity levels 3 to 5 are placed in the standard FIFO queue. This separation ensures that critical patients are handled immediately without being delayed by less urgent cases.
 
- ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° °
 
 ### ╰► Step 4: Priority Queue Insertion
 
@@ -145,7 +142,6 @@ current->next = newNode;
 **Explanation:**
 When inserting into the Priority Queue, the system traverses the linked list to find the correct position based on severity. The loop continues until it finds a node with a lower priority (higher severity number). The new patient is then inserted at that position. This ensures that the list remains sorted at all times, with the most critical patient always at the front.
 
- ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° °
 
 ### ╰► Step 5: Calling the Next Patient
 
@@ -155,7 +151,6 @@ When inserting into the Priority Queue, the system traverses the linked list to 
 **Explanation:**
 When the system needs to call the next patient, it always checks the Priority Queue first. If there are emergency patients waiting, the one with the highest priority is served immediately. Only when the Priority Queue is empty does the system proceed to serve patients from the FIFO queue. This guarantees that urgent cases are never delayed.
 
- ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° °
 
 ### ╰► Step 6: Recursive Display
 
@@ -169,7 +164,7 @@ static void displayRecursive(Node* current, int pos) {
 **Explanation:**
 The system uses recursion to display the contents of the Priority Queue. The function processes one node at a time and then calls itself for the next node. The base case stops the recursion when there are no more nodes. This approach simplifies traversal logic and closely matches the structure of a linked list, making the code easier to understand.
 
-════════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════════════════════════
 
 ## ◢ Iterative vs Recursive Comparison 
 
@@ -185,7 +180,7 @@ The system uses recursion to display the contents of the Priority Queue. The fun
 * **Iterative approach** is more efficient and suitable for production systems
 * **Recursive approach** is easier to understand and aligns with linked list structure
 
-════════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════════════════════════
 
 ## ◢ Design Decisions
 
@@ -195,7 +190,6 @@ The system uses recursion to display the contents of the Priority Queue. The fun
 * ✔ Allows full control over sorting and stability
 * ❌ Slower insertion (O(n))
 
- ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° °
 
 ### ╰► Dual Queue System
 
@@ -203,7 +197,6 @@ The system uses recursion to display the contents of the Priority Queue. The fun
 * ✔ Ensures critical patients are always prioritized
 * ❌ Adds slight complexity in routing logic
 
- ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° °
 
 ### ╰► Use of STL Containers
 
@@ -212,7 +205,6 @@ The system uses recursion to display the contents of the Priority Queue. The fun
 * ✔ Reduces implementation complexity
 * ✔ Improves reliability
 
- ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° ° °
 
 ### ╰► Recursive Traversal
 
@@ -220,7 +212,7 @@ The system uses recursion to display the contents of the Priority Queue. The fun
 * ✔ Cleaner and more intuitive
 * ❌ Uses additional memory
 
-════════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════════════════════════
 
 ## ◢ Team Members
 
@@ -231,7 +223,7 @@ The system uses recursion to display the contents of the Priority Queue. The fun
 | Trixie Feigh Sanchez | Main Programmer · System Architect                 |
 | Andrea L. Valenzuela | Designer · Research Coordinator                    |
 
-════════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════════════════════════
 
 ## ◢ Acknowledgement
 
@@ -246,10 +238,11 @@ Professor, CC 103 — Data Structures and Algorithms
 **College of Informatics and Computing Sciences (CICS)**
 For providing the academic environment and resources necessary for this project.
 
-════════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════════════════════════
 
 ## ◢ Full Interactive Version
 
 For the complete visual and interactive version, visit:
 https://readme-team1-d4u5.vercel.app/
+▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃
 
