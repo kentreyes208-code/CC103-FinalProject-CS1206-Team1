@@ -323,7 +323,7 @@ void TriageSystem::displayActivityStack() const {
                   << "\n";
         ++rec;
     }
-    cout << "  " << std::string(63, '-') << "\n";
+    cout << "  " << string(63, '-') << "\n";
 }
 
 // ── viewWaitlist ────────────────────────────────────────────
