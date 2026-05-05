@@ -2,8 +2,8 @@
 
 ▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃
 
-## 「 MARKDOWN VERSION 」
-# Hospital Triage & Patient Management System
+## ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ 「 MARKDOWN VERSION 」
+# ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ Hospital Triage & Patient Management System
 
 ## ◢ Table of Contents
 
@@ -25,7 +25,7 @@
 
 ════════════════════════════════════════════════════════════════════════
 
-## ◢ Problem Description — What problem are you solving?
+## ◢ Problem Description
 
 Many hospital patient management systems face challenges in efficiently handling patient flow, particularly when dealing with both emergency and non-emergency cases.
 
@@ -51,7 +51,7 @@ This project implements a **multi-level queuing system** that:
 
 ════════════════════════════════════════════════════════════════════════
 
-## ◢ Data Structures Used — What it is, Why you used it
+## ◢ Data Structures Used
 
 ### ╰► Stack (LIFO)
 
@@ -95,7 +95,7 @@ To ensure that **patients with higher urgency (lower severity number)** are alwa
 
 ════════════════════════════════════════════════════════════════════════
 
-## ◢ Algorithm Explanation — Step-by-step logic
+## ◢ Algorithm or Step-by-step logic
 
 ### ╰► Step 1: Patient Registration
 
@@ -172,7 +172,7 @@ The system uses recursion to display the contents of the Priority Queue. The fun
 
 ════════════════════════════════════════════════════════════════════════
 
-## ◢ Iterative vs Recursive Comparison — Which is faster? Which is easier?
+## ◢ Iterative vs Recursive Comparison 
 
 | Aspect                | Iterative                  | Recursive                      |
 | --------------------- | -------------------------- | ------------------------------ |
@@ -188,7 +188,7 @@ The system uses recursion to display the contents of the Priority Queue. The fun
 
 ════════════════════════════════════════════════════════════════════════
 
-## ◢ Design Decisions — Choices and Trade-offs
+## ◢ Design Decisions
 
 ### ╰► Custom Priority Queue
 
