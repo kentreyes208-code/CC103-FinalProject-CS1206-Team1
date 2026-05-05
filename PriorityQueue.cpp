@@ -11,7 +11,7 @@
 //    means higher priority, so the front of the list always
 //    holds the most urgent patient.
 //    Ties preserve first-come-first-served order (stable).
-//  Author  :Trixie Faye Sanchez
+//  Author  : Lianne Jade Magtaas
 //  Group   : Team 1
 //  Course  : CC 103
 // ============================================================
