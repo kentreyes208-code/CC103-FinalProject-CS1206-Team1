@@ -48,7 +48,7 @@ void TriageSystem::printBanner(const string& title) {
     int padding = (width - static_cast<int>(title.size())) / 2;
     cout << "  |" << string(padding, ' ')
               << title
-              << std::string(width - padding - static_cast<int>(title.size()), ' ')
+              << string(width - padding - static_cast<int>(title.size()), ' ')
               << "|\n";
     std::cout << "  +" << hLine << "+"
               << Color::RESET << "\n\n";
@@ -103,12 +103,12 @@ int TriageSystem::promptSeverity() {
     while (true) {
         cout << "  Severity  [1=Critical | 2=Serious | 3=Moderate | 4=Minor | 5=Routine]: ";
         if (cin >> level && level >= 1 && level <= 5) {
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             return level;
         }
         // Bad input — clear the stream and try again
         cin.clear();
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cin.ignore(numeric_limits< streamsize>::max(), '\n');
         cout << Color::RED
                   << "  [ERR] Please enter a number from 1 to 5.\n"
                   << Color::RESET;
@@ -139,10 +139,10 @@ void TriageSystem::admitPatient() {
 
     Patient p(nextId_++, name, ailment, sev);
 
-    // ── Step 1: Always push to the activity stack (LIFO log) ─
+    // ── Always push to the activity stack (LIFO log) ─
     stack_.push_back(p);
 
-    // ── Step 2: Route by severity ────────────────────────────
+    //  Route by severity 
     //    Severity 1-2 → Emergency Priority Queue
     //    Severity 3-5 → Standard FIFO Queue
     string destination;
@@ -247,15 +247,15 @@ void TriageSystem::displayStandardQueue() const {
     }
 
     cout << "\n";
-    cout << "  " << std::string(63, '-') << "\n";
-    cout << "  " << std::left
-              << std::setw(5)  << "Pos"
-              << std::setw(6)  << "ID"
-              << std::setw(22) << "Name"
-              << std::setw(20) << "Ailment"
-              << std::setw(10) << "Severity"
+    cout << "  " << string(63, '-') << "\n";
+    cout << "  " << left
+              << setw(5)  << "Pos"
+              << setw(6)  << "ID"
+              << setw(22) << "Name"
+              << setw(20) << "Ailment"
+              << setw(10) << "Severity"
               << "\n";
-    cout << "  " << std::string(63, '-') << "\n";
+    cout << "  " << string(63, '-') << "\n";
 
     auto label = [](int s) -> string {
         switch (s) {
@@ -268,16 +268,16 @@ void TriageSystem::displayStandardQueue() const {
 
     int pos = 1;
     for (const Patient& p : standardQueue_) {
-        cout << "  " << std::left
-                  << std::setw(5)  << pos
-                  << std::setw(6)  << p.id
-                  << std::setw(22) << p.name
-                  << std::setw(20) << p.ailment
-                  << std::setw(10) << label(p.severity)
+        cout << "  " << left
+                  << setw(5)  << pos
+                  << setw(6)  << p.id
+                  << setw(22) << p.name
+                  << setw(20) << p.ailment
+                  << setw(10) << label(p.severity)
                   << "\n";
         ++pos;
     }
-    cout << "  " << std::string(63, '-') << "\n";
+    cout << "  " << string(63, '-') << "\n";
 }
 
 // ── displayActivityStack ────────────────────────────────────
@@ -289,13 +289,13 @@ void TriageSystem::displayActivityStack() const {
     }
 
     cout << "\n";
-    cout << "  " << std::string(63, '-') << "\n";
-    cout << "  " << std::left
-              << std::setw(5)  << "Rec"
-              << std::setw(6)  << "ID"
-              << std::setw(22) << "Name"
-              << std::setw(20) << "Ailment"
-              << std::setw(10) << "Severity"
+    cout << "  " << string(63, '-') << "\n";
+    cout << "  " << left
+              << setw(5)  << "Rec"
+              << setw(6)  << "ID"
+              << setw(22) << "Name"
+              << setw(20) << "Ailment"
+              << setw(10) << "Severity"
               << "\n";
     cout << "  " << std::string(63, '-') << "\n";
 
@@ -315,11 +315,11 @@ void TriageSystem::displayActivityStack() const {
     for (int i = static_cast<int>(stack_.size()) - 1; i >= 0; --i) {
         const Patient& p = stack_[i];
         cout << "  " << std::left
-                  << std::setw(5)  << rec
-                  << std::setw(6)  << p.id
-                  << std::setw(22) << p.name
-                  << std::setw(20) << p.ailment
-                  << std::setw(10) << label(p.severity)
+                  << setw(5)  << rec
+                  << setw(6)  << p.id
+                  << setw(22) << p.name
+                  << setw(20) << p.ailment
+                  << setw(10) << label(p.severity)
                   << "\n";
         ++rec;
     }
