@@ -6,8 +6,8 @@
 
 #include "PriorityQueue.h"
 #include <string>
-#include <deque>    // std::deque used for the FIFO standard queue
-#include <vector>   // std::vector used for the LIFO activity stack
+#include <deque>    // deque used for the FIFO standard queue
+#include <vector>   // vector used for the LIFO activity stack
 
 // =====================
 //  TriageSystem.h
@@ -62,11 +62,11 @@ public:
     static void printMenu();
 
     // Print a styled section divider with a title
-    static void printBanner(const std::string& title);
+    static void printBanner(const string& title);
 
     // Print a success / error message with a prefix tag
-    static void printStatus(const std::string& tag,
-                             const std::string& message);
+    static void printStatus(const string& tag,
+                             const string& message);
 
 private:
     // ── Data structures ─────────────────────────────────────
