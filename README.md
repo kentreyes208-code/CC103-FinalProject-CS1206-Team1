@@ -23,7 +23,7 @@
 
 **Hospital Triage & Patient Management System**
 
-════════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════════════════════════
 
 ## ◢ Problem Description
 
@@ -38,7 +38,7 @@ Common issues include:
 
 Without a structured system, critical patients may experience delays, and hospital staff may struggle to maintain accountability and workflow clarity.
 
-════════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════════════════════════
 
 ### ◢ Proposed Solution
 
@@ -49,7 +49,7 @@ This project implements a **multi-level queuing system** that:
 * Tracks all recent activities using a **Stack**
 * Uses **recursion** for structured data traversal
 
-════════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════════════════════════
 
 ## ◢ Data Structures Used
 
