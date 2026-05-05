@@ -30,7 +30,7 @@
 //    • Auto-incrementing unique patient IDs
 //    • Providing user-friendly operations (admit, call, view)
 //    • Printing formatted output / status banners
-//  Author  :Kent Rowen Reyes
+//  Author  :Trixie Feigh Sanchez
 //  Group   : Team 1
 //  Course  : CC 103
 // =====================
