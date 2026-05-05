@@ -11,7 +11,7 @@
 //    closer to the front (head) of the list, so severity 1
 //    (Critical) is always dequeued before 2, 3, 4, or 5.
 //    Ties preserve first-come-first-served order (stable).
-//  Author  :Trixie Faye Sanchez
+//  Author  :Lianne Jade Magtaas
 //  Group   : Team 1
 //  Course  : CC 103
 
