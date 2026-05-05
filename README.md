@@ -454,7 +454,7 @@ In `enqueue()`, the goal is to **find and insert at a specific position**. A whi
 - Move a pointer forward
 - Check the condition at each step
 - Splice in the new node once the correct position is found
-- No recursion is needed because we are not just visiting every node; we are also **modifying the list structure**
+
 
 **Iterative is safer and more efficient here** because:
 - ✔ No function call overhead
