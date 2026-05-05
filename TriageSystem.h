@@ -56,7 +56,7 @@ public:
     // Return total number of waiting patients (both queues)
     int  getPatientCount() const;
 
-    // ── UI helpers ──────────────────────────────────────────
+    // ── CUI helpers ──────────────────────────────────────────
 
     // Print the main menu banner
     static void printMenu();
@@ -97,4 +97,4 @@ private:
     void displayActivityStack() const;
 };
 
-#endif // TRIAGESYSTEM_H
+#endif 
