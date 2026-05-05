@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hospital Triage & Patient Management System — README</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:      #e63946;
+    --orange:   #ff6b35;
+    --yellow:   #ffd166;
+    --teal:     #06d6a0;
+    --blue:     #118ab2;
+    --navy:     #073b4c;
+    --bg:       #050e14;
+    --surface:  #0a1a24;
+    --card:     #0f2333;
+    --border:   rgba(6,214,160,0.18);
+    --text:     #cfe8f0;
+    --muted:    #5c8a9a;
+    --mono:     'Space Mono', monospace;
+    --sans:     'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  /* ── SCANLINE ── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+    );
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(5,14,20,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 20px; flex-wrap: wrap; }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 90px 0 70px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    border: 1px solid var(--teal);
+    padding: 4px 12px;
+    margin-bottom: 26px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.1s forwards;
+  }
+  .hero h1 {
+    font-family: var(--sans);
+    font-size: clamp(28px, 6vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.2s forwards;
+  }
+  .hero h1 em { font-style: normal; color: var(--teal); }
+  .hero-sub {
+    margin-top: 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.3s forwards;
+  }
+  .hero-badges {
+    margin-top: 30px;
+    display: flex; flex-wrap: wrap; gap: 10px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.4s forwards;
+  }
+  .badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    padding: 5px 14px;
+    border-radius: 2px;
+    font-weight: 700;
+  }
+  .badge-teal  { background: rgba(6,214,160,0.12); color: var(--teal); border: 1px solid rgba(6,214,160,0.3); }
+  .badge-red   { background: rgba(230,57,70,0.12);  color: var(--red);  border: 1px solid rgba(230,57,70,0.3); }
+  .badge-blue  { background: rgba(17,138,178,0.12); color: #4fc9e8; border: 1px solid rgba(17,138,178,0.3); }
+  .badge-orange{ background: rgba(255,107,53,0.12); color: var(--orange); border: 1px solid rgba(255,107,53,0.3); }
+
+  /* ── SECTION ── */
+  section {
+    padding: 70px 0;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  section.visible { opacity: 1; transform: translateY(0); }
+
+  .sec-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-family: var(--sans);
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    line-height: 1.15;
+  }
+  h3 {
+    font-family: var(--sans);
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--yellow);
+  }
+  p { color: var(--text); opacity: 0.88; margin-bottom: 14px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 26px 28px;
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+  }
+  .card.accent-teal::before  { background: var(--teal); }
+  .card.accent-red::before   { background: var(--red); }
+  .card.accent-blue::before  { background: var(--blue); }
+  .card.accent-orange::before{ background: var(--orange); }
+  .card.accent-yellow::before{ background: var(--yellow); }
+
+  /* ── DS GRID ── */
+  .ds-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+  .ds-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 26px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .ds-card:hover { border-color: var(--teal); transform: translateY(-3px); }
+  .ds-icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .ds-card h3 { color: var(--teal); font-size: 16px; margin-bottom: 6px; }
+  .ds-card .ds-why { font-size: 13px; color: var(--muted); font-family: var(--mono); margin-top: 10px; }
+
+  /* ── STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 0 20px;
+    position: relative;
+  }
+  .step:not(:last-child) .step-line {
+    position: absolute;
+    left: 23px;
+    top: 44px;
+    bottom: -10px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--teal), transparent);
+  }
+  .step-num {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    border: 2px solid var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal);
+    background: var(--card);
+    flex-shrink: 0;
+    margin-top: 2px;
+    z-index: 1;
+  }
+  .step-body { padding: 0 0 36px; }
+  .step-body h3 { color: var(--text); font-size: 15px; margin-bottom: 6px; }
+  .step-body p  { font-size: 13.5px; opacity: 0.78; margin: 0; }
+
+  /* ── COMPARISON ── */
+  .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 600px) { .cmp-grid { grid-template-columns: 1fr; } }
+  .cmp-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px 22px;
+  }
+  .cmp-card.winner { border-color: var(--teal); }
+  .cmp-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cmp-title .pill {
+    font-size: 9px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 700;
+  }
+  .pill-teal { background: rgba(6,214,160,0.18); color: var(--teal); }
+  .pill-muted{ background: rgba(255,255,255,0.07); color: var(--muted); }
+  .cmp-row {
+    display: flex; gap: 10px; margin-bottom: 10px; font-size: 13.5px;
+  }
+  .cmp-row .label { color: var(--muted); font-family: var(--mono); font-size: 11px; min-width: 90px; padding-top: 1px; }
+  .cmp-row .val { opacity: 0.9; }
+
+  /* ── CODE BLOCK ── */
+  pre {
+    background: #040c12;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 18px 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: #a8d8e8;
+    overflow-x: auto;
+    line-height: 1.65;
+    margin: 16px 0;
+  }
+  pre .kw  { color: var(--teal); }
+  pre .fn  { color: var(--yellow); }
+  pre .cm  { color: var(--muted); font-style: italic; }
+  pre .str { color: var(--orange); }
+
+  /* ── TABLE ── */
+  .tbl-wrap { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  th {
+    background: rgba(6,214,160,0.08);
+    color: var(--teal);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    opacity: 0.88;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(6,214,160,0.04); }
+
+  /* ── TEAM ── */
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .team-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 22px 20px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .team-card:hover { border-color: var(--teal); transform: translateY(-3px); }
+  .team-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), var(--blue));
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--teal);
+    margin: 0 auto 14px;
+  }
+  .team-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .team-code { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 8px; }
+  .team-roles { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+
+  /* ── ACK ── */
+  .ack-block {
+    background: linear-gradient(135deg, rgba(6,214,160,0.06), rgba(17,138,178,0.06));
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 32px 30px;
+    text-align: center;
+  }
+  .ack-block .ack-title {
+    font-size: 13px;
+    color: var(--teal);
+    font-family: var(--mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .ack-item { margin-bottom: 18px; }
+  .ack-item strong { display: block; font-size: 15px; margin-bottom: 2px; }
+  .ack-item span   { font-size: 13px; color: var(--muted); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 40px 0;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    position: relative; z-index: 1;
+  }
+
+  /* ── UTIL ── */
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 9px;
+    border-radius: 2px;
+    margin-right: 5px;
+    margin-bottom: 4px;
+  }
+  .tag-teal   { background: rgba(6,214,160,0.12);  color: var(--teal);   border: 1px solid rgba(6,214,160,0.25); }
+  .tag-red    { background: rgba(230,57,70,0.12);   color: var(--red);    border: 1px solid rgba(230,57,70,0.25); }
+  .tag-yellow { background: rgba(255,209,102,0.12); color: var(--yellow); border: 1px solid rgba(255,209,102,0.25); }
+  .tag-blue   { background: rgba(79,201,232,0.12);  color: #4fc9e8;       border: 1px solid rgba(79,201,232,0.25); }
+
+  .divider {
+    width: 36px; height: 2px;
+    background: var(--teal);
+    margin-bottom: 24px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="wrap">
+    <span class="nav-logo">&#x2665; Queue the Healing · CC103</span>
+    <div class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#ds">Data Structures</a>
+      <a href="#algo">Algorithm</a>
+      <a href="#compare">Comparison</a>
+      <a href="#design">Design</a>
+      <a href="#team">Team</a>
+      <a href="#ack">Acknowledgement</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-tag">&#x1F3E5; CC 103 — Data Structures &amp; Algorithms &nbsp;·&nbsp; AY 2025–2026</div>
+    <h1>Hospital <em>Triage</em><br>& Patient Management<br>System</h1>
+    <p class="hero-sub">
+      CS1206 · Team 1 — Queue the Healing &nbsp;·&nbsp; Batangas State University – Alangilan &nbsp;·&nbsp; CICS
+    </p>
+    <div class="hero-badges">
+      <span class="badge badge-teal">C++ Console App</span>
+      <span class="badge badge-red">Priority Queue</span>
+      <span class="badge badge-blue">Linked List</span>
+      <span class="badge badge-orange">Recursion</span>
+      <span class="badge badge-teal">Stack</span>
+      <span class="badge badge-blue">FIFO Queue</span>
+    </div>
+  </div>
+</header>
+
+<!-- ── 1. PROBLEM ── -->
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-label">01 — Problem Description</div>
+    <h2>What Problem Are We Solving?</h2>
+    <div class="divider"></div>
+
+    <div class="card accent-red">
+      <h3>The Challenge</h3>
+      <p>Many hospital patient registration systems struggle to simultaneously track recently registered patients <em>and</em> manage both standard and emergency queues effectively. Without a structured approach, workflows break down — critical patients may wait behind less-urgent arrivals, registration logs lack accountability, and staff have no clear way to audit recent activity.</p>
+    </div>
+
+    <p>This system addresses that gap by implementing a <strong>multi-level queuing mechanism</strong> with triage-based categorization using core data structures covered in CC 103.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Pain Point</th><th>Our Solution</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>🔴 Disorganized patient workflows</td><td>Severity-routed dual-queue system (Priority Queue + FIFO Queue)</td></tr>
+          <tr><td>🔴 Critical patients not prioritized</td><td>Emergency PQ always drained before standard queue</td></tr>
+          <tr><td>🔴 No registration history / accountability</td><td>LIFO Stack maintains a timestamped activity log</td></tr>
+          <tr><td>🔴 Static display logic (no recursion)</td><td>Recursive traversal for Priority Queue display</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── 2. DATA STRUCTURES ── -->
+<section id="ds">
+  <div class="wrap">
+    <div class="sec-label">02 — Data Structures Used</div>
+    <h2>How We Organize Patients</h2>
+    <div class="divider"></div>
+
+    <div class="ds-grid">
+      <div class="ds-card">
+        <span class="ds-icon">🧱</span>
+        <h3>Stack</h3>
+        <p><strong>What it is:</strong> A Last-In, First-Out (LIFO) linear structure backed by a <code>std::vector</code>. The most recently pushed element is always the one popped first.</p>
+        <p class="ds-why">Used for: Recent Registration Log — lets staff instantly review or correct the most recently admitted patient, maintaining an ordered audit trail.</p>
+      </div>
+
+      <div class="ds-card">
+        <span class="ds-icon">📋</span>
+        <h3>FIFO Queue</h3>
+        <p><strong>What it is:</strong> A First-In, First-Out linear structure backed by a <code>std::deque</code>. Patients are served strictly in arrival order.</p>
+        <p class="ds-why">Used for: Standard Waiting List (Severity 3–5) — ensures fairness; non-critical patients are called in the order they registered.</p>
+      </div>
+
+      <div class="ds-card">
+        <span class="ds-icon">⚡</span>
+        <h3>Priority Queue</h3>
+        <p><strong>What it is:</strong> A sorted singly-linked list where the node with the <em>lowest severity number</em> (highest urgency) is always at the head. Ties preserve arrival order.</p>
+        <p class="ds-why">Used for: Emergency Triage (Severity 1–2) — critical patients are always seen first, regardless of when they arrived.</p>
+      </div>
+    </div>
+
+    <div class="card accent-teal" style="margin-top:10px;">
+      <h3>Severity Scale</h3>
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:8px;">
+        <span class="tag tag-red">1 — Critical</span>
+        <span class="tag tag-red">2 — Serious</span>
+        <span class="tag tag-yellow">3 — Moderate</span>
+        <span class="tag tag-teal">4 — Minor</span>
+        <span class="tag tag-teal">5 — Routine</span>
+      </div>
+      <p style="margin-top:12px; font-size:13.5px;">Severity 1–2 routes to the <strong>Emergency Priority Queue</strong>. Severity 3–5 routes to the <strong>Standard FIFO Queue</strong>. All patients are always pushed onto the <strong>Activity Stack</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 3. ALGORITHM ── -->
+<section id="algo">
+  <div class="wrap">
+    <div class="sec-label">03 — Algorithm Explanation</div>
+    <h2>Step-by-Step Logic</h2>
+    <div class="divider"></div>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-line"></div>
+        <div class="step-body">
+          <h3>Patient Registration</h3>
+          <p>The user enters the patient's full name, chief complaint, and severity level (1–5). A unique auto-incremented ID is assigned starting from 1001.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-line"></div>
+        <div class="step-body">
+          <h3>Stack Logging (Always)</h3>
+          <p>Every admitted patient is immediately pushed onto the activity <code>vector</code>-backed stack. This is unconditional — it provides an auditable LIFO history regardless of severity.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-line"></div>
+        <div class="step-body">
+          <h3>Severity-Based Routing</h3>
+          <p>If severity ≤ 2 → <code>emergencyPQ_.enqueue(patient)</code>. If severity ≥ 3 → <code>standardQueue_.push_back(patient)</code>. This bifurcation ensures critical cases never compete with routine ones.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-line"></div>
+        <div class="step-body">
+          <h3>Priority Queue Insertion (Linked List Sort)</h3>
+          <p>During <code>enqueue()</code>, the linked list is walked until a node with a strictly higher severity number is found. The new node is spliced in before it — producing a stable sorted list. The head always points to the most critical patient.</p>
+          <pre><span class="cm">// Walk until next node has lower priority</span>
+<span class="kw">while</span> (current->next != <span class="kw">nullptr</span> &&
+       current->next->data.severity <= patient.severity) {
+    current = current->next;
+}
+<span class="cm">// Splice new node between current and current->next</span>
+newNode->next  = current->next;
+current->next  = newNode;</pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-line"></div>
+        <div class="step-body">
+          <h3>Calling the Next Patient (Drain Order)</h3>
+          <p>When a patient is called, <code>callNextPatient()</code> first checks <code>emergencyPQ_</code>. Only if it is empty does it pull from <code>standardQueue_</code>. This guarantees emergencies always take precedence.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">06</div>
+        <div class="step-line"></div>
+        <div class="step-body">
+          <h3>Recursive Waitlist Display</h3>
+          <p>The Priority Queue's <code>display()</code> delegates to the recursive helper <code>displayRecursive(Node* current, int pos)</code>. It walks the linked list node-by-node: <strong>base case</strong> — stop when <code>current == nullptr</code>; <strong>recursive case</strong> — print the current patient row, then call self on <code>current->next</code>.</p>
+          <pre><span class="kw">static void</span> <span class="fn">displayRecursive</span>(Node* current, <span class="kw">int</span> pos) {
+    <span class="kw">if</span> (current == <span class="kw">nullptr</span>) <span class="kw">return</span>; <span class="cm">// BASE CASE</span>
+    <span class="cm">// ... print row for current->data ...</span>
+    <span class="fn">displayRecursive</span>(current->next, pos + <span class="str">1</span>); <span class="cm">// RECURSIVE CASE</span>
+}</pre>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── 4. COMPARISON ── -->
+<section id="compare">
+  <div class="wrap">
+    <div class="sec-label">04 — Iterative vs Recursive Comparison</div>
+    <h2>Which Approach is Better?</h2>
+    <div class="divider"></div>
+
+    <div class="cmp-grid">
+      <div class="cmp-card">
+        <div class="cmp-title" style="color:var(--muted)">
+          Iterative <span class="pill pill-muted">Original</span>
+        </div>
+        <div class="cmp-row"><span class="label">Speed</span><span class="val">Slightly faster — no function call overhead or stack frame allocation per node</span></div>
+        <div class="cmp-row"><span class="label">Memory</span><span class="val">O(1) extra space — uses a single traversal pointer on the heap</span></div>
+        <div class="cmp-row"><span class="label">Readability</span><span class="val">Familiar <code>while</code> loop — easy to follow for most programmers</span></div>
+        <div class="cmp-row"><span class="label">Risk</span><span class="val">Low — no risk of call-stack overflow even for very long queues</span></div>
+      </div>
+
+      <div class="cmp-card winner">
+        <div class="cmp-title" style="color:var(--teal)">
+          Recursive <span class="pill pill-teal">Current</span>
+        </div>
+        <div class="cmp-row"><span class="label">Speed</span><span class="val">Marginally slower — each call pushes a new frame onto the call stack</span></div>
+        <div class="cmp-row"><span class="label">Memory</span><span class="val">O(n) call-stack depth — one frame per node in the linked list</span></div>
+        <div class="cmp-row"><span class="label">Readability</span><span class="val">More expressive for tree/list traversal — mirrors the structure of the data</span></div>
+        <div class="cmp-row"><span class="label">Risk</span><span class="val">Low for typical hospital queue sizes; stack overflow only for extremely large n</span></div>
+      </div>
+    </div>
+
+    <div class="card accent-yellow" style="margin-top:10px;">
+      <h3>Verdict</h3>
+      <p><strong>Iterative is faster and safer</strong> in production — zero call-stack overhead and no overflow risk regardless of queue length. However, <strong>recursive is easier to understand conceptually</strong> for linked list traversal because the code directly mirrors how the list is structured: "process this node, then do the same for the rest." For the typical scale of a hospital triage queue, the performance difference is negligible, making recursion a valid and instructive choice for this academic project.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 5. DESIGN DECISIONS ── -->
+<section id="design">
+  <div class="wrap">
+    <div class="sec-label">05 — Design Decisions</div>
+    <h2>Choices & Trade-Offs</h2>
+    <div class="divider"></div>
+
+    <div class="card accent-teal">
+      <h3>Linked List for Priority Queue (not <code>std::priority_queue</code>)</h3>
+      <p><strong>Why:</strong> Implementing the PQ from scratch as a singly-linked list gave us direct control over insertion logic and made stable tie-breaking (arrival order) trivial to implement. Using the STL's heap-based <code>priority_queue</code> would have abstracted away the data structure concepts the course requires us to demonstrate.</p>
+      <p><strong>Trade-off:</strong> O(n) insertion vs O(log n) for a heap, but for small-to-medium hospital queues this is acceptable. We gain transparency and educational value.</p>
+    </div>
+
+    <div class="card accent-blue">
+      <h3>Dual-Queue Architecture (Emergency PQ + Standard FIFO)</h3>
+      <p><strong>Why:</strong> Separating emergency (severity 1–2) and standard (severity 3–5) patients into two distinct structures prevents critical patients from being mixed into a single sorted list with routine ones. The drain-emergency-first rule in <code>callNextPatient()</code> is then trivial to enforce.</p>
+      <p><strong>Trade-off:</strong> Slightly more complex routing logic at admission, but much cleaner dequeue logic and clearer separation of concerns.</p>
+    </div>
+
+    <div class="card accent-orange">
+      <h3><code>std::vector</code> as Stack, <code>std::deque</code> as Queue</h3>
+      <p><strong>Why:</strong> Rather than building a stack and FIFO queue from scratch (which would duplicate the linked-list exercise already done for PQ), we leveraged the STL for the logging stack and standard waiting list. <code>push_back</code>/<code>pop_back</code> on a <code>vector</code> is semantically identical to a stack; <code>push_back</code>/<code>pop_front</code> on a <code>deque</code> is a textbook FIFO queue.</p>
+      <p><strong>Trade-off:</strong> Less hand-crafted code, but faster iteration and lower bug surface — appropriate given the custom PQ already demonstrates manual data structure implementation.</p>
+    </div>
+
+    <div class="card accent-yellow">
+      <h3>Recursive Display as a Static Helper</h3>
+      <p><strong>Why:</strong> The <code>displayRecursive</code> function is declared <code>static</code> (file-scope) rather than as a class member. This keeps the <code>Node</code> internals encapsulated — external code never needs to call the helper directly. The public <code>display()</code> method owns the table header/footer and delegates only the row iteration to the recursive helper.</p>
+      <p><strong>Trade-off:</strong> A slight separation between the header logic (iterative) and row logic (recursive), but this results in a cleaner public API.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── 6. TEAM ── -->
+<section id="team">
+  <div class="wrap">
+    <div class="sec-label">06 — Team Members</div>
+    <h2>Team 1 — Queue the Healing</h2>
+    <div class="divider"></div>
+
+    <div class="team-grid">
+
+      <div class="team-card">
+        <div class="team-avatar">LM</div>
+        <div class="team-name">Lianne Jade Magtaas</div>
+        <div class="team-code">SR-Code: 25-07829</div>
+        <div class="team-roles">Documenter · Test Programmer · Requirements Analyst · Presentation Lead</div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar">KR</div>
+        <div class="team-name">Kent Rowen L. Reyes</div>
+        <div class="team-code">SR-Code: 25-01395</div>
+        <div class="team-roles">Documenter · Data Structure & Algorithm Specialist · Assistant Developer</div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar">TS</div>
+        <div class="team-name">Trixie Feigh Sanchez</div>
+        <div class="team-code">SR-Code: 25-06254</div>
+        <div class="team-roles">Documenter · Main Programmer · System Architect</div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar">AV</div>
+        <div class="team-name">Andrea L. Valenzuela</div>
+        <div class="team-code">SR-Code: 25-09041</div>
+        <div class="team-roles">Documenter · Console Designer · Research & References Coordinator</div>
+      </div>
+
+    </div>
+
+    <p style="margin-top:24px; font-family:var(--mono); font-size:11px; color:var(--muted); text-align:center;">
+      Computer Science — BS Computer Science &nbsp;·&nbsp; Batangas State University – Alangilan &nbsp;·&nbsp; CICS &nbsp;·&nbsp; 2nd Semester AY 2025–2026
+    </p>
+  </div>
+</section>
+
+<!-- ── 7. ACKNOWLEDGEMENT ── -->
+<section id="ack">
+  <div class="wrap">
+    <div class="sec-label">07 — Acknowledgement</div>
+    <h2>With Gratitude</h2>
+    <div class="divider"></div>
+
+    <div class="ack-block">
+      <div class="ack-title">&#x2665; Thank You</div>
+
+      <div class="ack-item">
+        <strong>Ms. Fatima Marie Agdon</strong>
+        <span>Our professor in CC 103 — Data Structures and Algorithms. Thank you for the guidance, patience, and for pushing us to think beyond textbook implementations. This project would not have been possible without your mentorship.</span>
+      </div>
+
+      <hr style="border:none; border-top:1px solid var(--border); margin:20px 0;">
+
+      <div class="ack-item">
+        <strong>Batangas State University — Alangilan Campus</strong>
+        <span><em>"The National Engineering University"</em><br>Leading Innovations, Transforming Lives, Building the Nation.</span>
+      </div>
+
+      <hr style="border:none; border-top:1px solid var(--border); margin:20px 0;">
+
+      <div class="ack-item">
+        <strong>College of Informatics and Computing Sciences (CICS)</strong>
+        <span>For providing the academic environment, resources, and curriculum that made this project meaningful and technically challenging.</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="wrap">
+    <p>CC 103 — Data Structures &amp; Algorithms &nbsp;·&nbsp; CS1206 Team 1 — Queue the Healing</p>
+    <p style="margin-top:6px;">Batangas State University – Alangilan &nbsp;·&nbsp; CICS &nbsp;·&nbsp; AY 2025–2026</p>
+  </div>
+</footer>
+
+<script>
+  // Intersection Observer for section fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('section').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
